@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Imanghafoori\HeyMan\Facades\HeyMan;
+use TaskApp\ProtectionLayers\PreventToManyTasks;
+use TaskApp\ProtectionLayers\ValidateForm;
 
 class TaskServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,12 @@ class TaskServiceProvider extends ServiceProvider
     {
         //check auth user
         AuthMiddleware::install('tasks.*');
+
+        //install PreventToManyTasks
+        PreventToManyTasks::install();
+
+        //install validate
+//        ValidateForm::install();
 
         User::resolveRelationUsing('tasks', function () {
             return $this->hasMany(Task::class);

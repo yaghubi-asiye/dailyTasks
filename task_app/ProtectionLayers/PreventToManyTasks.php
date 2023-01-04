@@ -11,9 +11,9 @@ class PreventToManyTasks
     public static function install()
     {
         HeyMan::onRoute('tasks.store')
-            ->thisMethodShouldAllow(static::class, (array)'exceedsAffordableTasks')
+            ->thisMethodShouldAllow([static::class, 'exceedsAffordableTasks'])
             ->otherwise()
-            ->weRespondeForm(static::class, 'response');
+            ->weRespondFrom([static::class, 'response']);
     }
 
     public static function response(): \Illuminate\Http\RedirectResponse
@@ -23,8 +23,8 @@ class PreventToManyTasks
             ->with('error', 'you can not create too many daily tasks');
     }
 
-    public static function exceedsAffordableTasks(): bool
+    public static function exceedsAffordableTasks()
     {
-        return TaskStore::countTask(auth()->id()) > config('task.max_task');
+        return TaskStore::countTask(auth()->id()) < config('task.max_tasks');
     }
 }

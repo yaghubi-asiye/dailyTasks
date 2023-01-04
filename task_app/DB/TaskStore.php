@@ -8,7 +8,9 @@ class TaskStore
 {
     public static function store($data, $userId)
     {
+
         $task = Task::create($data + ['user_id' => $userId]);
+
     }
 
     public static function countTask($userId)
