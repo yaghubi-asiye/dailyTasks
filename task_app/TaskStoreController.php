@@ -5,6 +5,7 @@ namespace TaskApp;
 use Imanghafoori\HeyMan\Facades\HeyMan;
 use Imanghafoori\HeyMan\StartGuarding;
 use TaskApp\DB\TaskStore;
+use TaskApp\DB\Transactioner;
 use TaskApp\ProtectionLayers\PreventToManyTasks;
 use TaskApp\ProtectionLayers\ValidateForm;
 
@@ -22,11 +23,14 @@ class TaskStoreController
     {
         HeyMan::checkPoint('tasks.store');
         $data = request()->only(['title', 'description']);
+        $failedResponse =function () {
+            return redirect()->route('tasks.index')
+                ->with('error', 'Task was not created');
+        };
 
-        $nullableTask = TaskStore::store($data, auth()->id());
-        $task = $nullableTask->getOrSend(function () {
-            return redirect()->route('tasks.index')->with('error', 'Task was not created');
-        });
+        $task = TaskStore::middlewared([Transactioner::class])
+            ->store($data, auth()->id())
+            ->getOrSend($failedResponse);
         return redirect()->route('tasks.index')->with('success', 'Task created');
     }
 

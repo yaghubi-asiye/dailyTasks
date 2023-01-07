@@ -3,29 +3,34 @@
 namespace TaskApp\DB;
 
 use DB;
+use Exception;
+use Imanghafoori\Middlewarize\Middlewarable;
 use TaskApp\Task;
 
 class TaskStore
 {
+    use Middlewarable;
+
     /**
-     * @throws \Exception
+     * @throws Exception
      */
+
     public static function store($data, $userId)
     {
         try {
-            DB::beginTransaction();
+
             $task = Task::query()->create($data + ['user_id' => $userId]);
         }
-        catch ( \Exception $e){
-            DB::rollBack();
+        catch ( Exception $e){
+
             return  nullable(null);
 
         }
         if(! $task->exists) {
-            DB::rollBack();
+
             return nullable(null);
         }
-        DB::commit();
+
         return  nullable($task);
 
     }
