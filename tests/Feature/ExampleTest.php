@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use TaskApp\DB\TaskStore;
 use TaskApp\Task;
@@ -80,6 +78,7 @@ class ExampleTest extends TestCase
 
     public function assertTaskCountIs(int $count): void
     {
-        $this->assertTrue(TaskStore::countTask(1) == $count);
+//        $this->assertTrue(TaskStore::countTask(1) == $count);
+        $this->assertEquals(TaskStore::countTask(1), $count);
     }
 }

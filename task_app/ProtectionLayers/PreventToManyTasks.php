@@ -10,7 +10,7 @@ class PreventToManyTasks
 {
     public static function install()
     {
-        HeyMan::onRoute('tasks.store')
+        HeyMan::onCheckPoint('tasks.store')
             ->thisMethodShouldAllow([static::class, 'exceedsAffordableTasks'])
             ->otherwise()
             ->weRespondFrom([static::class, 'response']);

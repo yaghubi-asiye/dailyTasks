@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "imanghafoori/laravel-heyman": "^2.2",
         "imanghafoori/laravel-temp-tag": "^1.2",
+        "imanghafoori/laravel-widgetize": "^2.2",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",

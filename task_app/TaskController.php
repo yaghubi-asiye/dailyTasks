@@ -5,13 +5,15 @@ namespace TaskApp;
 use Imanghafoori\HeyMan\Facades\HeyMan;
 use Imanghafoori\HeyMan\StartGuarding;
 use TaskApp\DB\TaskStore;
+use TaskApp\ProtectionLayers\PreventToManyTasks;
+use TaskApp\ProtectionLayers\ValidateForm;
 
 class TaskController
 {
     public  function  __construct()
     {
-        HeyMan::onCheckPoint('tasks.store')
-            ->validate(['title' => 'required']);
+        PreventToManyTasks::install();
+        ValidateForm::install();
         resolve(StartGuarding::class)->start();
     }
 

@@ -5,7 +5,6 @@ namespace TaskApp;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Imanghafoori\HeyMan\Facades\HeyMan;
 use TaskApp\ProtectionLayers\PreventToManyTasks;
 use TaskApp\ProtectionLayers\ValidateForm;
 
@@ -13,6 +12,9 @@ class TaskServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        User::resolveRelationUsing('tasks', function () {
+            return $this->hasMany(Task::class);
+        });
         $this->mergeConfigFrom(__DIR__.'/config.php', 'task');
     }
     public function boot()
@@ -21,14 +23,12 @@ class TaskServiceProvider extends ServiceProvider
         AuthMiddleware::install('tasks.*');
 
         //install PreventToManyTasks
-        PreventToManyTasks::install();
+//        PreventToManyTasks::install();
 
         //install validate
 //        ValidateForm::install();
 
-        User::resolveRelationUsing('tasks', function () {
-            return $this->hasMany(Task::class);
-        });
+
         //load migration
         $this->loadMigrationsFrom([
             base_path('task_app/migrations')

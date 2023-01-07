@@ -9,7 +9,10 @@ class ValidateForm
 {
     public static function install()
     {
-        HeyMan::onRoute('tasks.store')
+//        HeyMan::onRoute('tasks.store')
+//            ->validate(['title' => 'required']);
+
+        HeyMan::onCheckPoint('tasks.store')
             ->validate(['title' => 'required']);
     }
 }
