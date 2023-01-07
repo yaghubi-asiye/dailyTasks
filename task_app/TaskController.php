@@ -12,19 +12,10 @@ class TaskController
 {
     public  function  __construct()
     {
-        PreventToManyTasks::install();
-        ValidateForm::install();
-        resolve(StartGuarding::class)->start();
+
+//        resolve(StartGuarding::class)->start();
     }
 
-    public  function store()
-    {
-        HeyMan::checkPoint('tasks.store');
-        $data = request()->only(['title', 'description']);
-        $task = TaskStore::store($data, auth()->id());
-
-        return redirect()->route('tasks.index')->with('success', 'Task created');
-    }
 
     public  function index()
     {

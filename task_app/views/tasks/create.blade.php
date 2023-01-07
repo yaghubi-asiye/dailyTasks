@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Create Task') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('tasks.store') }}">
                             @csrf
 
                             <div class="row mb-3">
