@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Factories\migration\TempTagSchema;
 use Illuminate\Support\Facades\Schema;
 use TaskApp\DB\TaskStore;
 use TaskApp\Task;
@@ -14,6 +15,7 @@ class ExampleTest extends TestCase
     public function testTaskFormIsAuthenticated()
     {
         Task::schema();
+
         $response = $this->get(route('tasks.create'));
 
         $response->assertRedirect('/login');
@@ -30,6 +32,7 @@ class ExampleTest extends TestCase
     {
 //        Artisan::call('migrate');
         Task::schema();
+        TempTagSchema::createTable();
         $this->login($ID = 1);
 
         config()->set('task.max_tasks', 2);
@@ -37,6 +40,10 @@ class ExampleTest extends TestCase
         $response = $this->submitForm();
         $count = 1;
         $this->assertTaskCountIs($count = 1);
+
+        $task = Task::first();
+        $state = tempTags($task)->getActiveTag('state')->value;
+        $this->assertEquals('done', $state);
 
         $this->checkFormValidation();
 
@@ -70,7 +77,7 @@ class ExampleTest extends TestCase
     }
 
 
-    public function submitForm(array $data = ['title' => 'salam', 'description' => 'rhetoric'])
+    public function submitForm(array $data = ['title' => 'salam', 'description' => 'rhetoric', 'state' => 'done'])
     {
         return $this->post(route('tasks.store'), $data);
     }
