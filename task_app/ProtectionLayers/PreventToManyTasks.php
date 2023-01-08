@@ -5,7 +5,7 @@ namespace TaskApp\ProtectionLayers;
 use Imanghafoori\HeyMan\Facades\HeyMan;
 use TaskApp\DB\TaskStore;
 use TaskApp\Task;
-use TaskApp\TaskStoreResponses\HtmlyResponses;
+use TaskApp\TaskStoreResponses\Responses;
 
 class PreventToManyTasks
 {
@@ -14,7 +14,7 @@ class PreventToManyTasks
         HeyMan::onCheckPoint('tasks.store')
             ->thisMethodShouldAllow([static::class, 'exceedsAffordableTasks'])
             ->otherwise()
-            ->weRespondFrom([HtmlyResponses::class, 'tooManyTasksError']);
+            ->weRespondFrom([Responses::class, 'tooManyTasksError']);
     }
 
 

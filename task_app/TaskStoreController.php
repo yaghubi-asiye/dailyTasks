@@ -8,7 +8,7 @@ use TaskApp\DB\TaskStore;
 use TaskApp\DB\Transactioner;
 use TaskApp\ProtectionLayers\PreventToManyTasks;
 use TaskApp\ProtectionLayers\ValidateForm;
-use TaskApp\TaskStoreResponses\HtmlyResponses;
+use TaskApp\TaskStoreResponses\Responses;
 
 class TaskStoreController
 {
@@ -27,9 +27,9 @@ class TaskStoreController
 
         $task = TaskStore::middlewared([Transactioner::class])
             ->store($data, auth()->id())
-            ->getOrSend([HtmlyResponses::class, 'failed']);
+            ->getOrSend([Responses::class, 'failed']);
 
-        return HtmlyResponses::success();
+        return Responses::success();
     }
 
 

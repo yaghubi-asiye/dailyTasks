@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Widgets;
+namespace TaskApp\Widgets;
 
 /**
  *  |--------------------------------------------------------------------------
@@ -20,16 +20,17 @@ namespace App\Widgets;
 class StatesSelect
 {
     public $cacheLifeTime = 10;
+    public $template = 'Task::StatesSelectView';
+    public static $states = [
+        'done' => 'Done :)',
+        'doing' => 'Doing ...',
+        'failed' => 'Failed :(',
+        'skipped' => 'Skipped :|',
+        'not_started' => 'Not Started',
+
+    ];
     public function data()
 	{
-        $states = [
-            'done' => 'Done :)',
-            'doing' => 'Doing ...',
-            'failed' => 'Failed :(',
-            'skipped' => 'Skipped :|',
-            'not_started' => 'Not Started',
-
-        ];
-		return compact('states');
+		return ['states' => self::$states];
 	}
 }

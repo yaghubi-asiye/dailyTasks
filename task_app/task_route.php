@@ -1,6 +1,5 @@
 <?php
 
-use App\Widgets\StatesSelect;
 use Illuminate\Support\Facades\Route;
 use TaskApp\TaskController;
 use TaskApp\TaskStoreController;

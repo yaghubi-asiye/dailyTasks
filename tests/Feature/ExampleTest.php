@@ -52,9 +52,22 @@ class ExampleTest extends TestCase
 
         $response = $this->submitForm();
         $this->assertTaskCountIs($count = 2);
-
-
         $response->assertRedirect(route('tasks.index'));
+
+        //android
+        $data = [
+            'title'=>'salam',
+            'description'=>'salam',
+            'state'=>'done',
+            'client'=>'android',
+        ];
+        $response = $this->submitForm($data);
+        $this->assertTaskCountIs($count = 2);
+
+        $response->assertJson(['error' => 'you can not create too many daily tasks']);
+        $response->assertStatus(400);
+
+
         Schema::dropIfExists('tasks');
     }
 
