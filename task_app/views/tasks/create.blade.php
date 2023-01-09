@@ -39,7 +39,7 @@
                                 </div>
                             </div>
 
-                            @widget('StatesSelect')
+                            @widget('\TaskApp\Widgets\StatesSelect')
 
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">

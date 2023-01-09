@@ -15,15 +15,17 @@ class BlockNastyUsers
             return isset($state[request('state')]);
         };
 
-        $callback2 = function () {
-            $user = auth()->user();
-            $end = now()->addSecond(120);
-            tempTags($user)->tagIt('banned', $end, ['reason' => 'tempering with create form']);
-        };
         HeyMan::onCheckPoint('tasks.store')
             ->thisClosureShouldAllow($callback)
             ->otherwise()
-            ->afterCalling($callback2)
-            ->weRespondFrom([Responses::class, 'userBlocked']);
+            ->afterCalling([static::class, 'blockUser'])
+            ->weRespondFrom([Responses::class, 'userBlocked'],[120]);
+    }
+
+    public static function blockUser()
+    {
+        $user = auth()->user();
+        $end = now()->addSecond(120);
+        tempTags($user)->tagIt('banned', $end, ['reason' => 'tempering with create form']);
     }
 }
